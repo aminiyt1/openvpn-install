@@ -1,24 +1,40 @@
-**New: [wireguard-install](https://github.com/Nyr/wireguard-install) is also available.**
+**جدید: [wireguard-install](https://github.com/Nyr/wireguard-install) نیز در دسترس است.**
 
-## openvpn-install
-OpenVPN [road warrior](http://en.wikipedia.org/wiki/Road_warrior_%28computing%29) installer for Ubuntu, Debian, AlmaLinux, Rocky Linux, CentOS and Fedora.
+## نصب OpenVPN
+اسکریپت نصب OpenVPN برای سیستم‌عامل‌های اوبونتو، دبیان، آلما‌لینوکس، راکی لینوکس، سنت‌اویس و فدورا.
 
-This script will let you set up your own VPN server in no more than a minute, even if you haven't used OpenVPN before. It has been designed to be as unobtrusive and universal as possible.
+این اسکریپت به شما اجازه می‌دهد در کمتر از یک دقیقه سرور VPN خود را راه‌اندازی کنید، حتی اگر تا به حال از OpenVPN استفاده نکرده باشید. این اسکریپت به گونه‌ای طراحی شده است که تا حد امکان ساده و همه‌کاره باشد.
 
-### Installation
-Run the script and follow the assistant:
+### نصب و راه‌اندازی
+اسکریپت را دانلود و اجرا کرده و مراحل را دنبال کنید:
 
-```plain text
-wget https://git.io/vpn -O openvpn-install.sh && bash openvpn-install.sh
+#### روش اول (پیشنهادی):
+```bash
+wget [https://raw.githubusercontent.com/aminiyt1/openvpn-install/master/openvpn-install.sh](https://raw.githubusercontent.com/aminiyt1/openvpn-install/master/openvpn-install.sh) -O openvpn-install.sh && chmod +x openvpn-install.sh && ./openvpn-install.sh
 ```
 
-Once it ends, you can run it again to add more users, remove some of them or even completely uninstall OpenVPN.
+#### روش دوم (جایگزین):
+```bash
+apt update && apt install unzip && unzip -j openvpn-install-master.zip
+bash openvpn-install.sh
+```
 
-### I want to run my own VPN but don't have a server for that
-You can get a VPS from just [2 EUR](https://alphavps.com/clients/aff.php?aff=474&pid=457&currency=1) or [2 USD](https://alphavps.com/clients/aff.php?aff=474&pid=457&currency=6) per month at [AlphaVPS](https://alphavps.com/clients/aff.php?aff=474&pid=457&currency=1).
+پس از اتمام نصب، می‌توانید دوباره اسکریپت را اجرا کنید تا کاربران جدید اضافه کنید، کانفیگ‌ها را مشاهده یا پاک کنید و یا کلاً OpenVPN را از روی سرور حذف کنید.
 
-### Donations
-If you want to show your appreciation, you can donate via [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VBAYDL34Z7J6L) or [cryptocurrency](https://pastebin.com/raw/M2JJpQpC). Thanks!
+---
+**رفع مشکل (Troubleshooting):**
+در صورتی که پس از نصب، سرویس فعال نشد و کار نکرد، از دو دستور زیر استفاده کنید:
+```bash
+systemctl enable openvpn@server
+reboot
+```
+---
 
-### Sponsors
-VPN without the terminal? Point-and-click deployment + free VPS, live in 3 min. Try free, then $1/mo — [Clever VPN](https://www.clever-vpn.net/en/landing-vpn?wg-referral=01LOULuQoi).
+### من سرور VPN می‌خواهم اما سروری ندارم
+می‌توانید یک VPS با هزینه مقرون‌به‌صرفه از ۲ یورو یا ۲ دلار در ماه از [AlphaVPS](https://alphavps.com/clients/aff.php?aff=474&pid=457&currency=1) تهیه کنید.
+
+### حمایت مالی
+اگر تمایل به قدردانی و حمایت مالی دارید، می‌توانید از طریق [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VBAYDL34Z7J6L) یا [ارز دیجیتال](https://pastebin.com/raw/M2JJpQpC) این کار را انجام دهید. با تشکر!
+
+### حامیان
+به دنبال VPN بدون درگیری با ترمینال هستید؟ راه‌اندازی با یک کلیک + VPS رایگان در ۳ دقیقه. [Clever VPN](https://www.clever-vpn.net/en/landing-vpn?wg-referral=01LOULuQoi) را امتحان کنید.
