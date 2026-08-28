@@ -8,13 +8,12 @@
 
 #### روش اول (پیشنهادی):
 ```bash
-wget [https://raw.githubusercontent.com/aminiyt1/openvpn-install/master/openvpn-install.sh](https://raw.githubusercontent.com/aminiyt1/openvpn-install/master/openvpn-install.sh) -O openvpn-install.sh && chmod +x openvpn-install.sh && ./openvpn-install.sh
+wget https://raw.githubusercontent.com/aminiyt1/openvpn-install/master/openvpn-install.sh -O openvpn-install.sh && chmod +x openvpn-install.sh && ./openvpn-install.sh
 ```
 
 #### روش دوم (جایگزین):
 ```bash
-apt update && apt install unzip && unzip -j openvpn-install-master.zip
-bash openvpn-install.sh
+apt update&&apt install unzip&&unzip -j openvpn-install-master.zip
 ```
 
 ### دستور بازکردن منو ، ساخت و دریافت کانفیگ :
