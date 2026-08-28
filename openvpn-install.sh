@@ -579,28 +579,60 @@ else
 			exit
 		;;
 		4)
-			number_of_configs=$(ls -1 "$script_dir"/*.ovpn 2>/dev/null | wc -l)
-			if [[ "$number_of_configs" = 0 ]]; then
+			while true; do
+				number_of_configs=$(ls -1 "$script_dir"/*.ovpn 2>/dev/null | wc -l)
+				if [[ "$number_of_configs" = 0 ]]; then
+					echo
+					echo "There are no configuration files available!"
+					break
+				fi
 				echo
-				echo "There are no configuration files available!"
-				exit
-			fi
-			echo
-			echo "Select a configuration to view:"
-			ls -1 "$script_dir"/*.ovpn | xargs -n 1 basename | nl -s ') '
-			read -p "Configuration: " config_number
-			until [[ "$config_number" =~ ^[0-9]+$ && "$config_number" -le "$number_of_configs" ]]; do
-				echo "$config_number: invalid selection."
+				echo "Select a configuration:"
+				ls -1 "$script_dir"/*.ovpn | xargs -n 1 basename | nl -s ') '
+				echo "   0) Back to main menu"
 				read -p "Configuration: " config_number
+				
+				if [[ "$config_number" == "0" ]]; then
+					break
+				fi
+				
+				until [[ "$config_number" =~ ^[0-9]+$ && "$config_number" -le "$number_of_configs" ]]; do
+					echo "$config_number: invalid selection."
+					read -p "Configuration: " config_number
+				done
+				
+				selected_config=$(ls -1 "$script_dir"/*.ovpn | xargs -n 1 basename | sed -n "${config_number}p")
+				
+				echo
+				echo "Selected file: $selected_config"
+				echo "   1) View config content"
+				echo "   2) Delete config file"
+				echo "   3) Back to config list"
+				read -p "Option: " sub_option
+				
+				case "$sub_option" in
+					1)
+						echo
+						echo "--- START OF CONFIG ($selected_config) ---"
+						cat "$script_dir/$selected_config"
+						echo "--- END OF CONFIG ---"
+						echo
+						read -n1 -r -p "Press any key to continue..."
+						;;
+					2)
+						rm -f "$script_dir/$selected_config"
+						echo
+						echo "$selected_config deleted successfully!"
+						sleep 1
+						;;
+					3)
+						continue
+						;;
+					*)
+						echo "Invalid selection."
+						;;
+				esac
 			done
-			selected_config=$(ls -1 "$script_dir"/*.ovpn | xargs -n 1 basename | sed -n "${config_number}p")
-			
-			echo
-			echo "--- START OF CONFIG ($selected_config) ---"
-			cat "$script_dir/$selected_config"
-			echo "--- END OF CONFIG ---"
-			echo
-			exit
 		;;
 		5)
 			exit
