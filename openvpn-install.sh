@@ -593,7 +593,7 @@ else
 				read -p "Configuration: " config_number
 				
 				if [[ "$config_number" == "0" ]]; then
-					break
+					exec "$0"
 				fi
 				
 				until [[ "$config_number" =~ ^[0-9]+$ && "$config_number" -le "$number_of_configs" ]]; do
@@ -633,7 +633,7 @@ else
 						;;
 				esac
 			done
-		;;
+			;;
 		5)
 			exit
 		;;
