@@ -586,7 +586,7 @@ else
 				exit
 			fi
 			echo
-			echo "Select a configuration to download:"
+			echo "Select a configuration to view:"
 			ls -1 "$script_dir"/*.ovpn | xargs -n 1 basename | nl -s ') '
 			read -p "Configuration: " config_number
 			until [[ "$config_number" =~ ^[0-9]+$ && "$config_number" -le "$number_of_configs" ]]; do
@@ -595,16 +595,11 @@ else
 			done
 			selected_config=$(ls -1 "$script_dir"/*.ovpn | xargs -n 1 basename | sed -n "${config_number}p")
 			
-			server_ip=$(grep '^remote ' /etc/openvpn/server/client-common.txt | awk '{print $2}')
-			
 			echo
-			echo "To download your file, you can copy this link into your browser or use Python to host it temporarily:"
-			echo "File path on server: $script_dir/$selected_config"
+			echo "--- START OF CONFIG ($selected_config) ---"
+			cat "$script_dir/$selected_config"
+			echo "--- END OF CONFIG ---"
 			echo
-			echo "You can run this command to start a temporary download server on port 8080:"
-			echo "python3 -m http.server 8080 --directory $script_dir"
-			echo "Then use this link in your browser:"
-			echo "http://$server_ip:8080/$selected_config"
 			exit
 		;;
 		5)
