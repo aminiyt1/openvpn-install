@@ -458,9 +458,10 @@ else
 	echo "   1) Add a new client"
 	echo "   2) Revoke an existing client"
 	echo "   3) Remove OpenVPN"
-	echo "   4) Exit"
+	echo "   4) View and download clients"
+	echo "   5) Exit"
 	read -p "Option: " option
-	until [[ "$option" =~ ^[1-4]$ ]]; do
+	until [[ "$option" =~ ^[1-5]$ ]]; do
 		echo "$option: invalid selection."
 		read -p "Option: " option
 	done
@@ -578,6 +579,35 @@ else
 			exit
 		;;
 		4)
+			number_of_configs=$(ls -1 "$script_dir"/*.ovpn 2>/dev/null | wc -l)
+			if [[ "$number_of_configs" = 0 ]]; then
+				echo
+				echo "There are no configuration files available!"
+				exit
+			fi
+			echo
+			echo "Select a configuration to download:"
+			ls -1 "$script_dir"/*.ovpn | xargs -n 1 basename | nl -s ') '
+			read -p "Configuration: " config_number
+			until [[ "$config_number" =~ ^[0-9]+$ && "$config_number" -le "$number_of_configs" ]]; do
+				echo "$config_number: invalid selection."
+				read -p "Configuration: " config_number
+			done
+			selected_config=$(ls -1 "$script_dir"/*.ovpn | xargs -n 1 basename | sed -n "${config_number}p")
+			
+			server_ip=$(grep '^remote ' /etc/openvpn/server/client-common.txt | awk '{print $2}')
+			
+			echo
+			echo "To download your file, you can copy this link into your browser or use Python to host it temporarily:"
+			echo "File path on server: $script_dir/$selected_config"
+			echo
+			echo "You can run this command to start a temporary download server on port 8080:"
+			echo "python3 -m http.server 8080 --directory $script_dir"
+			echo "Then use this link in your browser:"
+			echo "http://$server_ip:8080/$selected_config"
+			exit
+		;;
+		5)
 			exit
 		;;
 	esac
